@@ -1,17 +1,30 @@
 <template>
   <div class="searchWrapper">
-    <input type="text" name="search" id="search" v-model="searchValue" @input="handleInput" placeholder="ex. Moon" />
-    <ul>
-      <li v-for="item in results" :key="item.data[0].nasa_id">
-        <p>{{ item.data[0].description }}</p>
-      </li>
-    </ul>
+    <input
+      type="text"
+      name="search"
+      id="search"
+      placeholder="ex. Moon"
+      :value="value"
+      @input="handleChange"
+    />
   </div>
 </template>
 
 <script>
 export default {
   name: 'Search',
+  props: {
+    value: {
+      type: String,
+      required: true,
+    }
+  },
+  methods: {
+    handleChange(e) {
+      this.$emit('input', e.target.value);
+    },
+  }
 }
 </script>
 
@@ -28,6 +41,8 @@ export default {
       border-bottom: 1px solid black;
       outline: none;
       text-align: center;
+      font-size: 18px;
+      font-weight: 700;
     }
   }
 </style>
