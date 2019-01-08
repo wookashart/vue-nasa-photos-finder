@@ -10,6 +10,7 @@
     <div class="results" v-if="results && !loading && step === 1">
       <Item v-for="(item, index) in results" :item="item" :key="index" @click.native="handleModalOpen(item)" />
     </div>
+    <div class="loader" v-if="step === 1 && loading" />
     <Modal v-if="modalOpen" @closeModal="modalOpen = false" :item="modalItem" />
   </div>
 </template>
@@ -48,7 +49,7 @@
         this.modalItem = item;
       },
       handleInput: debounce(function() {
-        this.loading = true
+        this.loading = true;
 
         axios.get(`${API}?q=${this.searchValue}&media_type=image`)
           .then(response => {
@@ -115,6 +116,39 @@
 
       @media (min-width: 1024px) {
         grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+
+    .loader {
+      margin-top: 100px;
+      display: inline-block;
+      width: 64px;
+      height: 64px;
+
+      @media (min-width: 768px) {
+        width: 90px;
+        height: 90px;
+      }
+    }
+
+    .loader:after {
+      content: " ";
+      display: block;
+      width: 46px;
+      height: 46px;
+      margin: 1px;
+      border-radius: 50%;
+      border: 5px solid black;
+      border-color: black transparent black transparent;
+      animation: lds-dual-ring 1.2s linear infinite;
+    }
+    
+    @keyframes lds-dual-ring {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
       }
     }
   }
