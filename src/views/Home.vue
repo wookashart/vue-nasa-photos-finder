@@ -22,7 +22,8 @@
       }
     },
     components: {
-      Claim, Search,
+      Claim,
+      Search,
     },
     methods: {
       handleInput: debounce(function() {
