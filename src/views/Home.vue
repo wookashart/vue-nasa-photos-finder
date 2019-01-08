@@ -8,8 +8,9 @@
     <Claim v-if="step === 0" />
     <Search v-model="searchValue" @input="handleInput" />
     <div class="results" v-if="results && !loading && step === 1">
-      <Item v-for="(item, index) in results" :item="item" :key="index" />
+      <Item v-for="(item, index) in results" :item="item" :key="index" @click.native="handleModalOpen(item)" />
     </div>
+    <Modal v-if="modalOpen" @closeModal="modalOpen = false" :item="modalItem" />
   </div>
 </template>
 
@@ -19,6 +20,7 @@
   import Claim from '@/components/Claim';
   import Search from '@/components/Search';
   import Item from '@/components/Item'
+  import Modal from '@/components/Modal'
 
   const API = 'https://images-api.nasa.gov/search';
 
@@ -30,14 +32,21 @@
         results: [],
         loading: false,
         step: 0,
+        modalOpen: false,
+        modalItem: null,
       }
     },
     components: {
       Claim,
       Search,
       Item,
+      Modal,
     },
     methods: {
+      handleModalOpen(item) {
+        this.modalOpen = true;
+        this.modalItem = item;
+      },
       handleInput: debounce(function() {
         this.loading = true
 

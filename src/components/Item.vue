@@ -34,7 +34,6 @@ export default {
     background-position: 50%;
     width: 300px;
     height: 300px;
-    /* border: 1px solid black;
-    margin: 15px; */
+    cursor: pointer;
   }
 </style>
